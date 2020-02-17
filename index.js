@@ -53,6 +53,7 @@ async function main() {
     const result = JSON.stringify(uploadedFile)
     const body = `UI run result - ${result}}`
     
+    
     await client.issues.createComment({...context.issue, body: body})
 
   } catch (error) {
