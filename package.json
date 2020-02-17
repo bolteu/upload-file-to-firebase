@@ -1,0 +1,48 @@
+{
+  "name": "upload-file-to-firebase",
+  "version": "1.0.0",
+  "description": "Uplaod file to firebase",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bolteu/upload-file-to-firebase-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bolteu/upload-file-to-firebase-action.git"
+  },
+  "homepage": "https://github.com/bolteu/upload-file-to-firebase-action.git#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/github": "^1.1.0",
+    "@octokit/request": "^5.1.0",
+    "firebase-admin": "^8.9.2",
+    "execa": "^2.0.4"
+  },
+  "devDependencies": {
+    "@semantic-release/git": "^7.0.18",
+    "@zeit/ncc": "^0.20.5",
+    "semantic-release": "^15.14.0"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "dist/index.js"
+          ],
+          "message": "build(release): compiled action for ${nextRelease.version}\n\n[skip ci]"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  }
+}
