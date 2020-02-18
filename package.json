@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bolteu/upload-file-to-firebase-action.git"
+    "url": "git+https://github.com/bolteu/upload-file-to-firebase.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bolteu/upload-file-to-firebase-action.git"
+    "url": "https://github.com/bolteu/upload-file-to-firebase.git"
   },
-  "homepage": "https://github.com/bolteu/upload-file-to-firebase-action.git#readme",
+  "homepage": "https://github.com/bolteu/upload-file-to-firebase.git#readme",
   "dependencies": {
     "@actions/core": "^1.2.2",
     "@actions/github": "^1.1.0",
