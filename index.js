@@ -33,7 +33,7 @@ async function main() {
 
     var destinationLabel = `time-${Date.now().toString()}`
     if (context.issue != null && context.issue.number != null) {
-      destinationLabel = `pr-numer-${context.issue.number}`
+      destinationLabel = `pr-numer-${context.issue.number}-${destinationLabel}`
     }
     const destinationName = `${inputs.bucketFolder}/${destinationLabel}-${path.basename(inputs.filePath)}`
     const bucket = admin.storage().bucket();
@@ -45,8 +45,8 @@ async function main() {
     const result = JSON.stringify(uploadedFile)
     // const body = `UI run result - ${result}}`
     
-    const url = uploadedFile[0]["metadata"]["selfLink"]
-
+    const id = uploadedFile[0]["id"]["selfLink"]
+    const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}`
     const body = `UI tests run results - ${url}`
     await client.issues.createComment({...context.issue, body: body})
 
