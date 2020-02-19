@@ -37,12 +37,17 @@ async function main() {
     }
     const destinationName = `${inputs.bucketFolder}/${destinationLabel}-${path.basename(inputs.filePath)}`
     const bucket = admin.storage().bucket();
-    const uploadedFile = await bucket.upload(inputs.filePath, { destination: destinationName })
+    const uploadedFile = await bucket.upload(inputs.filePath, { 
+      destination: destinationName,
+      predefinedAcl: "publicRead"
+    })
     
     const result = JSON.stringify(uploadedFile)
-    const body = `UI run result - ${result}}`
+    // const body = `UI run result - ${result}}`
     
-    
+    const url = uploadedFile[0]["metadata"]["selfLink"]
+
+    const body = `UI tests run results - ${uploadedFile}`
     await client.issues.createComment({...context.issue, body: body})
 
   } catch (error) {
