@@ -33,7 +33,7 @@ async function main() {
 
     var destinationLabel = `time-${Date.now().toString()}`
     if (context.issue != null && context.issue.number != null) {
-      destination = `pr-numer-${context.issue.number}`
+      destinationLabel = `pr-numer-${context.issue.number}`
     }
     const destinationName = `${inputs.bucketFolder}/${destinationLabel}-${path.basename(inputs.filePath)}`
     const uploadedFile = await bucket.upload(inputs.filePath, { destination: destinationName })
