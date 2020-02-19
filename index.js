@@ -11,18 +11,6 @@ import {context, GitHub} from '@actions/github'
 main();
 
 async function main() {
-  if (!process.env.GITHUB_TOKEN) {
-    core.setFailed(
-      `GITHUB_TOKEN is not configured. Make sure you made it available to your action
-  
-    uses: bolteu/upload_file_to_firebase@master
-    env:
-      GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}`
-    );
-    return;
-  }
-
-
   try {
     const inputs = {
       serviceJson: core.getInput('service-json'),
