@@ -31,7 +31,7 @@ async function main() {
       storageBucket: inputs.bucketName
     });
 
-    var destinationLabel = `time-${Date.now().parse()}`
+    var destinationLabel = `time-${Date.now().toString()}`
     if (context.issue != null && context.issue.number != null) {
       destination = `pr-numer-${context.issue.number}`
     }
