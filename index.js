@@ -36,6 +36,7 @@ async function main() {
       destinationLabel = `pr-numer-${context.issue.number}`
     }
     const destinationName = `${inputs.bucketFolder}/${destinationLabel}-${path.basename(inputs.filePath)}`
+    const bucket = admin.storage().bucket();
     const uploadedFile = await bucket.upload(inputs.filePath, { destination: destinationName })
     
     const result = JSON.stringify(uploadedFile)
