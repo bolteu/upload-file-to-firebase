@@ -47,7 +47,7 @@ async function main() {
     
     const url = uploadedFile[0]["metadata"]["selfLink"]
 
-    const body = `UI tests run results - ${uploadedFile}`
+    const body = `UI tests run results - ${url}`
     await client.issues.createComment({...context.issue, body: body})
 
   } catch (error) {
