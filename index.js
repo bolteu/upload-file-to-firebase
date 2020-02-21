@@ -42,8 +42,8 @@ async function main() {
 
     const files = await fs.readdirSync(inputs.directoryPath);
     for (var i = files.length - 1; i >= 0; i--) {
-      const file = files[i]
-      const fileName = path.basename(file)
+      const fileName = files[i]
+      const file = path.join(inputs.directoryPath, fileName)
       const uploadedFile = await bucket.upload(file, { 
         destination: `destinationFolder/${fileName}`,
         predefinedAcl: "publicRead"
