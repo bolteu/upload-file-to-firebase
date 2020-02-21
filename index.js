@@ -40,7 +40,6 @@ async function main() {
     const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
     const bucket = admin.storage().bucket();
 
-    const directoryPath = path.join(__dirname, inputs.directoryPath);
     const files = await fs.readdirSync(directoryPath);
     for (var i = files.length - 1; i >= 0; i--) {
       const file = files[i]
