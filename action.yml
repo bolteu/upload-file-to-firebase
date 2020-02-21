@@ -16,8 +16,11 @@ inputs:
   bucketFolder:
     description: "Folder for uploading the file"
     required: true
-  filePath:
+  indexFile:
     description: "Path to a file to be uploaded"
+    required: true
+  directoryPath:
+    description: "Path to a directory to be uploaded"
     required: true
 runs:
   using: "node12"

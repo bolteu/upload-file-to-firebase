@@ -4,6 +4,7 @@ const { command } = require("execa");
 const core = require("@actions/core");
 const { request } = require("@octokit/request");
 const path = require("path");
+const fs = require("fs");
 
 const admin = require("firebase-admin");
 import {context, GitHub} from '@actions/github'
@@ -17,7 +18,8 @@ async function main() {
       githubToken: core.getInput('github-token'),
       bucketName: core.getInput("bucketName"),
       bucketFolder: core.getInput("bucketFolder"),
-      filePath: core.getInput("filePath"),
+      indexFile: core.getInput("indexFile"),
+      directoryPath: core.getInput("directoryPath"),
     };
 
     core.debug(`Inputs: ${inspect(inputs)}`);
@@ -35,20 +37,27 @@ async function main() {
     if (context.issue != null && context.issue.number != null) {
       destinationLabel = `pr-numer-${context.issue.number}-${destinationLabel}`
     }
-    const destinationName = `${inputs.bucketFolder}/${destinationLabel}-${path.basename(inputs.filePath)}`
+    const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
     const bucket = admin.storage().bucket();
-    const uploadedFile = await bucket.upload(inputs.filePath, { 
-      destination: destinationName,
-      predefinedAcl: "publicRead"
-    })
-    
-    const result = JSON.stringify(uploadedFile)
-    
-    const id = uploadedFile[0]["id"]
-    const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
-    const body = `UI tests run results - ${url}`
-    await client.issues.createComment({...context.issue, body: body})
 
+    const directoryPath = path.join(__dirname, inputs.directoryPath);
+    const files = await fs.readdir(directoryPath);
+    for (var i = files.length - 1; i >= 0; i--) {
+      const file = files[i]
+      const fileName = path.basename(file)
+      const uploadedFile = await bucket.upload(file, { 
+        destination: `destinationFolder/${fileName}`,
+        predefinedAcl: "publicRead"
+      })
+
+      if (fileName == inputs.indexFile) {
+        const id = uploadedFile[0]["id"]
+        const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
+        const body = `UI tests run results - ${url}`
+        await client.issues.createComment({...context.issue, body: body})
+      }  
+    }
+    
   } catch (error) {
     core.debug(inspect(error));
     core.setFailed(error.message);
