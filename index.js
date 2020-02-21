@@ -41,7 +41,7 @@ async function main() {
     const bucket = admin.storage().bucket();
 
     const directoryPath = path.join(__dirname, inputs.directoryPath);
-    const files = await fs.readdir(directoryPath);
+    const files = await fs.readdirSync(directoryPath);
     for (var i = files.length - 1; i >= 0; i--) {
       const file = files[i]
       const fileName = path.basename(file)
@@ -57,7 +57,7 @@ async function main() {
         await client.issues.createComment({...context.issue, body: body})
       }  
     }
-    
+
   } catch (error) {
     core.debug(inspect(error));
     core.setFailed(error.message);
