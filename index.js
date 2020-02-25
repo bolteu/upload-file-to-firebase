@@ -39,11 +39,14 @@ async function main() {
     }
     const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
     const bucket = admin.storage().bucket();
+    const files = fs.readdirSync(inputs.directoryPath);
 
-    const files = await fs.readdirSync(inputs.directoryPath);
+    core.debug(`Listed files in directoryPath - ${files}`)
     for (var i = files.length - 1; i >= 0; i--) {
       const fileName = files[i]
       const file = path.join(inputs.directoryPath, fileName)
+      core.debug(`Uploading file - ${file}`)
+      
       const uploadedFile = await bucket.upload(file, { 
         destination: `destinationFolder/${fileName}`,
         predefinedAcl: "publicRead"
