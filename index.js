@@ -18,7 +18,6 @@ async function main() {
       githubToken: core.getInput('github-token'),
       bucketName: core.getInput("bucketName"),
       bucketFolder: core.getInput("bucketFolder"),
-      indexFile: core.getInput("indexFile"),
       directoryPath: core.getInput("directoryPath"),
     };
 
@@ -39,6 +38,9 @@ async function main() {
     }
     const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
     const bucket = admin.storage().bucket();
+
+    const archiveFilePath = `${path.dirname(inputs.directoryPath)}/tests.tgz`
+    await runShellCommand(`tar -czf ${archiveFilePath} ${inputs.directoryPath}`)
     const files = fs.readdirSync(inputs.directoryPath);
 
     core.debug(`Listed files in directoryPath - ${files}`)
@@ -46,9 +48,9 @@ async function main() {
       const fileName = files[i]
       const file = path.join(inputs.directoryPath, fileName)
       core.debug(`Uploading file - ${file}`)
-      
+
       const uploadedFile = await bucket.upload(file, { 
-        destination: `destinationFolder/${fileName}`,
+        destination: `${destinationFolder}/${fileName}`,
         predefinedAcl: "publicRead"
       })
 
