@@ -37,15 +37,16 @@ async function main() {
       destinationLabel = `pr-numer-${context.issue.number}-${destinationLabel}`
     }
     const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
-    const bucket = admin.storage().bucket();
+    const bucket = admin.storage().bucket(); 
 
     const archiveFilePath = `${path.dirname(inputs.directoryPath)}/tests.tgz`
-    await runShellCommand(`tar -czf ${archiveFilePath} ${inputs.directoryPath}`)
+    await runShellCommand(`tar -C ${path.dirname(inputs.directoryPath)} -czf ${archiveFilePath} ${path.basename(inputs.directoryPath)}`)
 
     const uploadedFile = await bucket.upload(archiveFilePath, { 
       destination: `${destinationFolder}/test.tgz`,
       predefinedAcl: "publicRead"
     })
+
 
     const id = uploadedFile[0]["id"]
     const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
