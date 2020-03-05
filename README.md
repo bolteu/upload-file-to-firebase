@@ -1,4 +1,4 @@
-# Update Jira Ticket fix version
+# Upload test results to Firebase
 
 ## Set up
 
