@@ -51,7 +51,7 @@ async function main() {
 
     const id = uploadedFile[0]["id"]
     const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
-    const body = `❌ ${input.testNamePrefix} tests run has FAILED. \n Results - ${url}`
+    const body = `❌ ${inputs.testNamePrefix} tests run has FAILED. \n Results - ${url}`
     await client.issues.createComment({...context.issue, body: body})
 
 
