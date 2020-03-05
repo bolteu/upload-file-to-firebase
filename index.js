@@ -19,6 +19,7 @@ async function main() {
       bucketName: core.getInput("bucketName"),
       bucketFolder: core.getInput("bucketFolder"),
       directoryPath: core.getInput("directoryPath"),
+      testNamePrefix: core.getInput("testNamePrefix")
     };
 
     core.debug(`Inputs: ${inspect(inputs)}`);
@@ -50,7 +51,7 @@ async function main() {
 
     const id = uploadedFile[0]["id"]
     const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
-    const body = `❌ Tests run has FAILED. \n Results - ${url}`
+    const body = `❌ ${testNamePrefix} tests run has FAILED. \n Results - ${url}`
     await client.issues.createComment({...context.issue, body: body})
 
 
