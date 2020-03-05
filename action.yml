@@ -19,6 +19,9 @@ inputs:
   directoryPath:
     description: "Path to a directory to be uploaded"
     required: true
+  testNamePrefix:
+    description: "Prefix for test name"
+    required: true
 runs:
   using: "node12"
   main: "dist/index.js"
