@@ -45,7 +45,8 @@ async function main() {
 
     const uploadedFile = await bucket.upload(archiveFilePath, { 
       destination: `${destinationFolder}/test.tgz`,
-      predefinedAcl: "publicRead"
+      predefinedAcl: "publicRead",
+      resumable: false
     })
 
 
