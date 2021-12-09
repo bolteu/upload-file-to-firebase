@@ -34,7 +34,7 @@ async function main() {
     });
 
     var destinationLabel = `time-${Date.now().toString()}`
-    if (context.issue != null && context.issue.number != null) {
+    if (isPullRequest(context)) {
       destinationLabel = `pr-numer-${context.issue.number}-${destinationLabel}`
     }
     const destinationFolder = `${inputs.bucketFolder}/${destinationLabel}`
@@ -53,13 +53,21 @@ async function main() {
     const id = uploadedFile[0]["id"]
     const url = `https://firebasestorage.googleapis.com/v0/b/${inputs.bucketName}/o/${id}?alt=media`
     const body = `❌ ${inputs.testNamePrefix} tests run has FAILED. \n Results - ${url}`
-    await client.issues.createComment({...context.issue, body: body})
 
+    if (isPullRequest(context)) {
+      await client.issues.createComment({...context.issue, body: body})
+    } else {
+      core.info(body)
+    }
 
   } catch (error) {
     core.debug(inspect(error));
     core.setFailed(error.message);
   }
+}
+
+function isPullRequest(context) {
+  return context.issue != null && context.issue.number != null
 }
 
 async function runShellCommand(commandString) {
