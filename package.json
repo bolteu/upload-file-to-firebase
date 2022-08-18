@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/bolteu/upload-file-to-firebase.git#readme",
   "dependencies": {
-    "@actions/core": "^1.2.2",
+    "@actions/core": "^1.9.1",
     "@actions/github": "^1.1.0",
     "@octokit/request": "^5.1.0",
     "firebase-admin": "^8.9.2",
